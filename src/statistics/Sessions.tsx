@@ -3,6 +3,7 @@ import type { Dart, Session } from '../training/model'
 import { mainZones, majorZones, statistics, roundedDistribution } from '../training/model'
 import { loadCompletedSessions, loadSessionDetail } from '../training/storage'
 import './Sessions.css'
+import FullStatistics from './FullStatistics'
 
 type SessionRow = { session: Session; count: number }
 function elapsed(session: Session) {
@@ -48,7 +49,7 @@ export default function Sessions() {
     <div className="sessions-screen">
       {view === 'menu' ? <nav className="choices" aria-label="Statistics menu">
         <button className="choice statistics" onClick={() => void listSessions()}><span className="choice-copy"><span className="choice-title">View Sessions</span><span className="description">Revisit each completed Triple 20 session.</span></span><span aria-hidden="true">↗</span></button>
-        <button className="choice" onClick={() => setView('full')}><span className="choice-copy"><span className="choice-title">View Full Statistics</span><span className="description">Lifetime statistics and trends — coming next.</span></span><span aria-hidden="true">↗</span></button>
+        <button className="choice" onClick={() => setView('full')}><span className="choice-copy"><span className="choice-title">View Full Statistics</span><span className="description">Explore recent throws, lifetime accuracy and trends.</span></span><span aria-hidden="true">↗</span></button>
       </nav> : <>
         <button className="secondary-action" onClick={() => {
           if (view === 'detail') void listSessions()
@@ -70,7 +71,7 @@ export default function Sessions() {
           <dl className="zone-summary">{[...mainZones, ...majorZones].map(zone => <div key={zone}><dt>{zone} <span className="zone-count">({stats.zones[zone]} darts)</span></dt><dd>{distribution[zone].toFixed(1)}%</dd></div>)}<div className="distribution-total"><dt>Total</dt><dd>{stats.count ? '100.0%' : '0.0%'}</dd></div></dl>
           <p className="session-note">Percentages are rounded to one decimal and balanced to total 100% for sessions with darts.</p>
         </>}
-        {view === 'full' && <div className="notice"><h3>Coming next</h3><p>Historical ranges and trend graphs will be added in a later step. Individual sessions are available in View Sessions.</p></div>}
+        {view === 'full' && <FullStatistics />}
       </>}
     </div>
   )

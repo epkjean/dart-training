@@ -115,3 +115,15 @@ export async function loadSessionDetail(sessionId: string) {
   if (!session || session.endedAt === null || session.trainingType !== 'triple20') return null
   return { session, darts: darts.filter(dart => dart.trainingType === 'triple20') }
 }
+
+export async function loadHistory() {
+  const db = await openDatabase()
+  const tx = db.transaction(['sessions', 'throws'], 'readonly')
+  const done = completed(tx)
+  const [sessions, darts] = await Promise.all([
+    requestValue<Session[]>(tx.objectStore('sessions').getAll()),
+    requestValue<Dart[]>(tx.objectStore('throws').getAll()),
+  ])
+  await done
+  return { sessions, darts }
+}

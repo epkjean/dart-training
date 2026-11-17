@@ -24,7 +24,9 @@ The app includes the start page and Triple 20 session recording with 13 result z
 undo, live statistics, IndexedDB persistence and JSON backup download.
 Active sessions resume after reloading. Statistics > View Sessions lists completed sessions
 and shows individual session details, all 13 zones and high/low tendencies.
-Full historical statistics, CSV export, JSON restore
+Full Statistics supports Last 50/100/500 and Lifetime distributions, history summaries,
+and rolling 50/100/500-throw trends for accuracy, miss patterns and every result zone.
+Saved active-session darts are included. CSV export, JSON restore
 and an offline app cache will be added in later steps.
 
 See REQUIREMENTS.md for product requirements and AGENTS.md for project instructions.
