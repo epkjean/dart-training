@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import './App.css'
+import Training from './training/Training'
 
 type Page = 'home' | 'training' | 'statistics'
 
@@ -61,12 +62,18 @@ function App() {
               </button>
             </nav>
           </>
+        ) : page === 'training' ? (
+          <section className="destination">
+            <button className="back-button" onClick={goHome}>← Back to Start Page</button>
+            <h1 ref={heading} tabIndex={-1}>Triple 20 Training</h1>
+            <Training />
+          </section>
         ) : (
           <section className="destination">
             <button className="back-button" onClick={goHome}>← Back to Start Page</button>
-            <p className="eyebrow">{page === 'training' ? 'FOCUS ON YOUR TARGET' : 'SEE YOUR PROGRESS'}</p>
-            <h1 ref={heading} tabIndex={-1}>{page === 'training' ? 'Triple 20 Training' : 'Statistics'}</h1>
-            <div className="notice"><h2>Coming next</h2><p>{page === 'training' ? 'Session controls and dart recording will be added in the next development steps.' : 'Session history and full statistics will be added after dart recording is ready.'}</p></div>
+            <p className="eyebrow">SEE YOUR PROGRESS</p>
+            <h1 ref={heading} tabIndex={-1}>Statistics</h1>
+            <div className="notice"><h2>Coming next</h2><p>Session history and full statistics will be added in the next development steps.</p></div>
           </section>
         )}
       </main>

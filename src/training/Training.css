@@ -1,0 +1,32 @@
+.training-screen { margin-top: 24px; }
+.session-intro p, .session-note { color: #b8bdc7; line-height: 1.6; }
+.session-meta { display: flex; flex-wrap: wrap; gap: 12px 24px; font-size: 14px; color: #b8bdc7; margin-bottom: 22px; }
+.session-meta strong { color: #f2c94c; }
+.primary-action, .secondary-action { min-height: 54px; padding: 14px 24px; border-radius: 9px; border: 1px solid #555961; color: #f5f5f5; font-weight: 650; }
+.primary-action { background: #b51f30; border-color: #d72638; }
+.secondary-action { background: #202126; }
+.session-intro .primary-action { margin: 8px 0 24px; }
+.zone-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.zone { min-height: 90px; border: 1px solid #454852; border-radius: 10px; background: #1b1c21; color: #f5f5f5; font-size: 22px; font-weight: 650; padding: 12px 5px; }
+.bull-target { background: #b51f30; border-color: #f5717f; font-size: 29px; }
+.zone:hover:enabled { border-color: #f2c94c; }
+button:disabled { opacity: .4; cursor: default; transform: none; }
+.miss-label { margin: 22px 0 10px; }
+.miss-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.miss-grid .zone { font-size: 16px; min-height: 64px; }
+.live-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 24px 0; }
+.live-stats > div { background: #15161a; border: 1px solid #2a2d34; padding: 16px; border-radius: 9px; }
+.live-stats dt { font-size: 13px; color: #b8bdc7; }
+.live-stats dd { margin: 6px 0 0; font-size: 26px; font-weight: 650; }
+.session-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 24px 0; }
+.session-actions button { flex: 1; }
+.save-feedback { min-height: 24px; color: #b8bdc7; font-size: 14px; }
+.storage-error { padding: 16px; border: 1px solid #f5717f; background: #35151b; border-radius: 9px; }
+.zone-summary > div { display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #2a2d34; }
+.zone-summary dd { margin: 0; }
+@media (max-width: 600px) {
+  .zone { min-height: 76px; font-size: 18px; }
+  .miss-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .live-stats > div { padding: 12px 8px; }
+  .live-stats dd { font-size: 23px; }
+}
