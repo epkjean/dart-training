@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import Training from './training/Training'
+import Sessions from './statistics/Sessions'
 
 type Page = 'home' | 'training' | 'statistics'
 
@@ -73,7 +74,7 @@ function App() {
             <button className="back-button" onClick={goHome}>← Back to Start Page</button>
             <p className="eyebrow">SEE YOUR PROGRESS</p>
             <h1 ref={heading} tabIndex={-1}>Statistics</h1>
-            <div className="notice"><h2>Coming next</h2><p>Session history and full statistics will be added in the next development steps.</p></div>
+            <Sessions />
           </section>
         )}
       </main>

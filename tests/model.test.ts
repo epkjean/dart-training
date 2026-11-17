@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { mainZones, majorZones, recentThrows, statistics } from '../src/training/model.ts'
+import { mainZones, majorZones, recentThrows, statistics, roundedDistribution } from '../src/training/model.ts'
 import type { Dart, Zone } from '../src/training/model.ts'
 function dartsFor(zone: Zone, count: number, sessionId = 'one'): Dart[] {
   return Array.from({ length: count }, (_, index) => ({ id: `${sessionId}-${zone}-${index}`, sessionId, timestamp: '2026-11-17T18:00:00Z', trainingType: 'triple20', target: 'T20', resultZone: zone }))
@@ -31,4 +31,18 @@ test('empty input and every result zone remain well defined', () => {
   assert.equal(stats.zones.T20, 1)
   assert.equal(Object.keys(stats.zones).length, 13)
   assert.ok(Math.abs(Object.values(stats.distribution).reduce((sum, value) => sum + value, 0) - 100) < 0.00001)
+})
+
+test('displayed zone percentages total exactly 100 percent after rounding', () => {
+  const darts = [...dartsFor('T20', 1), ...dartsFor('High 20', 1), ...dartsFor('T1', 1)]
+  const distribution = roundedDistribution(darts)
+  assert.equal(Object.values(distribution).reduce((sum, value) => sum + Math.round(value * 10), 0), 1000)
+  assert.equal(distribution.T20, 33.3)
+  assert.equal(distribution['High 20'], 33.4)
+  assert.equal(Object.values(roundedDistribution([])).reduce((sum, value) => sum + value, 0), 0)
+})
+test('high and low tendencies include their major misses without lateral major misses', () => {
+  const darts = [...dartsFor('High 5', 1), ...dartsFor('Over 20', 1), ...dartsFor('Low 1', 1), ...dartsFor('Below 20', 1), ...dartsFor('Left of 5', 1)]
+  assert.equal(statistics(darts).high, 40)
+  assert.equal(statistics(darts).low, 40)
 })

@@ -88,3 +88,30 @@ export async function exportBackup() {
   link.click()
   setTimeout(() => URL.revokeObjectURL(url), 1000)
 }
+
+export async function loadCompletedSessions() {
+  const db = await openDatabase()
+  const tx = db.transaction(['sessions', 'throws'], 'readonly')
+  const done = completed(tx)
+  const sessions = await requestValue<Session[]>(tx.objectStore('sessions').getAll())
+  const completedSessions = sessions.filter(session => session.trainingType === 'triple20' && session.endedAt !== null)
+    .sort((a, b) => b.startedAt.localeCompare(a.startedAt) || b.id.localeCompare(a.id))
+  // Count through the existing index instead of loading every historical dart.
+  const rows = await Promise.all(completedSessions.map(async session => ({
+    session, count: await requestValue(tx.objectStore('throws').index('sessionId').count(session.id)),
+  })))
+  await done
+  return rows
+}
+export async function loadSessionDetail(sessionId: string) {
+  const db = await openDatabase()
+  const tx = db.transaction(['sessions', 'throws'], 'readonly')
+  const done = completed(tx)
+  const [session, darts] = await Promise.all([
+    requestValue<Session | undefined>(tx.objectStore('sessions').get(sessionId)),
+    requestValue<Dart[]>(tx.objectStore('throws').index('sessionId').getAll(sessionId)),
+  ])
+  await done
+  if (!session || session.endedAt === null || session.trainingType !== 'triple20') return null
+  return { session, darts: darts.filter(dart => dart.trainingType === 'triple20') }
+}
